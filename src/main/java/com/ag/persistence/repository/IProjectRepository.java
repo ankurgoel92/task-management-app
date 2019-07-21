@@ -1,12 +1,9 @@
 package com.ag.persistence.repository;
 
-import java.util.Optional;
+import org.springframework.data.repository.CrudRepository;
 
 import com.ag.persistence.model.Project;
 
-public interface IProjectRepository {
-    Optional<Project> findById(long id);
-
-    Project save(Project project);
+public interface IProjectRepository extends CrudRepository<Project, Long>{
 
 }

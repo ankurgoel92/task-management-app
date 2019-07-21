@@ -2,29 +2,38 @@ package com.ag.persistence.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Project {
 
-    private long id;
-    private String internalId;
+    @Id
+    @GeneratedValue
+    private Long id;
+
     private String name;
-    private LocalDate date;
+
+    private LocalDate dateCreated;
+
+    protected Project() {
+    }
+
+    public Project(String name, LocalDate dateCreated) {
+        this.name = name;
+        this.dateCreated = dateCreated;
+    }
 
     public Project(Project project) {
-        this(project.getId(), project.getName(), project.getDate());
+        this(project.getName(), project.getDateCreated());
     }
 
-    public Project(long id, String name, LocalDate date) {
-        super();
-        this.id = id;
-        this.name = name;
-        this.date = date;
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -36,29 +45,20 @@ public class Project {
         this.name = name;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getDateCreated() {
+        return dateCreated;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public String getInternalId() {
-        return internalId;
-    }
-
-    public void setInternalId(String internalId) {
-        this.internalId = internalId;
+    public void setDateCreated(LocalDate dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((date == null) ? 0 : date.hashCode());
-        result = prime * result + (int) (id ^ (id >>> 32));
-        result = prime * result + ((internalId == null) ? 0 : internalId.hashCode());
+        result = prime * result + ((dateCreated == null) ? 0 : dateCreated.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
@@ -72,17 +72,15 @@ public class Project {
         if (getClass() != obj.getClass())
             return false;
         Project other = (Project) obj;
-        if (date == null) {
-            if (other.date != null)
+        if (dateCreated == null) {
+            if (other.dateCreated != null)
                 return false;
-        } else if (!date.equals(other.date))
+        } else if (!dateCreated.equals(other.dateCreated))
             return false;
-        if (id != other.id)
-            return false;
-        if (internalId == null) {
-            if (other.internalId != null)
+        if (id == null) {
+            if (other.id != null)
                 return false;
-        } else if (!internalId.equals(other.internalId))
+        } else if (!id.equals(other.id))
             return false;
         if (name == null) {
             if (other.name != null)
@@ -90,21 +88,6 @@ public class Project {
         } else if (!name.equals(other.name))
             return false;
         return true;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Project [id=");
-        builder.append(id);
-        builder.append(", internalId=");
-        builder.append(internalId);
-        builder.append(", name=");
-        builder.append(name);
-        builder.append(", date=");
-        builder.append(date);
-        builder.append("]");
-        return builder.toString();
     }
 
 }

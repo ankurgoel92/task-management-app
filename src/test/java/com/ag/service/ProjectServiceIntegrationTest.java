@@ -1,4 +1,4 @@
-package com.ag;
+package com.ag.service;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -13,7 +13,6 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.ag.config.TestConfig;
 import com.ag.persistence.model.Project;
-import com.ag.service.IProjectService;
 
 @SpringJUnitConfig(classes = TestConfig.class)
 @TestPropertySource(locations = "classpath:application.properties")
@@ -24,7 +23,7 @@ public class ProjectServiceIntegrationTest {
     
     @Test
     public void testSave() {
-        Project savedProject = projectService.save(new Project(1, "My First Project", LocalDate.now()));
+        Project savedProject = projectService.save(new Project("My First Project", LocalDate.now()));
         assertThat(savedProject, is(notNullValue()));
     }
 }
