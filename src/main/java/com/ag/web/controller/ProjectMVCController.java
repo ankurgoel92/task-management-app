@@ -1,20 +1,15 @@
 package com.ag.web.controller;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.ag.persistence.model.Project;
 import com.ag.persistence.model.Task;
@@ -41,17 +36,17 @@ public class ProjectMVCController {
         return "projects";
     }
 
-    @GetMapping(value = "/{id}")
-    public ProjectDto findOne(@PathVariable Long id) {
-        Project entity = projectService.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        return convertToDto(entity);
+    @GetMapping("/new")
+    public String newProject(Model model) {
+        model.addAttribute("project", new ProjectDto());
+        return "new-project";
     }
 
     @PostMapping
-    public void create(@RequestBody ProjectDto newProject) {
-        Project entity = convertToEntity(newProject);
-        this.projectService.save(entity);
+    public String addProject(ProjectDto project) {
+        projectService.save(convertToEntity(project));
+
+        return "redirect:/mvc/projects";
     }
 
     protected ProjectDto convertToDto(Project entity) {
@@ -60,7 +55,6 @@ public class ProjectMVCController {
             .stream()
             .map(t -> convertTaskToDto(t))
             .collect(Collectors.toSet()));
-
         return dto;
     }
 

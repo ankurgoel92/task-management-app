@@ -4,13 +4,14 @@ import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Task {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -24,7 +25,8 @@ public class Task {
     private TaskStatus status;
 
     public Task() {
-
+        this.dateCreated = LocalDate.now();
+        this.status = TaskStatus.TO_DO;
     }
 
     public Task(String name, String description, LocalDate dateCreated, LocalDate dueDate) {
