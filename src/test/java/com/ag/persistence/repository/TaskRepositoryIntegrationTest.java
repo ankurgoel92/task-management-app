@@ -1,10 +1,10 @@
 package com.ag.persistence.repository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.Assert.assertThat;
 
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,20 +16,21 @@ import com.ag.persistence.model.Task;
 public class TaskRepositoryIntegrationTest {
 
     @Autowired
-    ITaskRepository taskRepository;
+    private ITaskRepository taskRepository;
 
     @Test
-    public void whenSavingNewTask_thenSuccess() {
-        Task newTask = new Task("First Task", "First Task", LocalDate.now(), LocalDate.now());
-        assertNotNull(taskRepository.save(newTask));
-    }
+    public void givenProjectCreated_whenFindByTaskNameMatches_thenSuccess() {
+        Task task1 = new Task("Low Priority Task", "Low Priority Task", LocalDate.now(), LocalDate.now());
+        Task task2 = new Task("Low Priority Task", "Low Priority Task", LocalDate.now(), LocalDate.now());
+        Task task3 = new Task("High Priority Task", "High Priority Task", LocalDate.now(), LocalDate.now());
+        Task task4 = new Task("High Priority Task", "High Priority Task", LocalDate.now(), LocalDate.now());
 
-    @Test
-    public void givenTask_whenFindById_thenSuccess() {
-        Task newTask = new Task("First Task", "First Task", LocalDate.now(), LocalDate.now());
-        taskRepository.save(newTask);
+        taskRepository.save(task1);
+        taskRepository.save(task2);
+        taskRepository.save(task3);
+        taskRepository.save(task4);
 
-        Optional<Task> retreivedTask = taskRepository.findById(newTask.getId());
-        assertEquals(retreivedTask.get(), newTask);
+        List<Task> retreivedTasks = taskRepository.findByNameMatches("High");
+        assertThat(retreivedTasks, contains(task3, task4));
     }
 }
