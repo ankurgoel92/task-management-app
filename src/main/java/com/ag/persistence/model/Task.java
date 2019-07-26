@@ -1,6 +1,5 @@
 package com.ag.persistence.model;
 
-
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
@@ -34,6 +33,14 @@ public class Task {
         this.dateCreated = dateCreated;
         this.dueDate = dueDate;
         this.status = TaskStatus.TO_DO;
+    }
+
+    public Task(String name, String description, LocalDate dateCreated, LocalDate dueDate, TaskStatus status) {
+        this.name = name;
+        this.description = description;
+        this.dateCreated = dateCreated;
+        this.dueDate = dueDate;
+        this.status = status;
     }
 
     public Task(Task task) {
