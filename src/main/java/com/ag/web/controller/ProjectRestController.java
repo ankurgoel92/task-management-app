@@ -18,16 +18,14 @@ import com.ag.web.dto.ProjectDto;
 import com.ag.web.dto.TaskDto;
 
 @RestController
-@RequestMapping(value = "/projects")
-public class ProjectController {
+@RequestMapping(value = "/rest/projects")
+public class ProjectRestController {
 
     private IProjectService projectService;
 
-    public ProjectController(IProjectService projectService) {
+    public ProjectRestController(IProjectService projectService) {
         this.projectService = projectService;
     }
-
-    //
 
     @GetMapping(value = "/{id}")
     public ProjectDto findOne(@PathVariable Long id) {

@@ -9,4 +9,6 @@ public interface IProjectService {
     Optional<Project> findById(long id);
 
     Project save(Project project);
+
+    Iterable<Project> findAll();
 }
