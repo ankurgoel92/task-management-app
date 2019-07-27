@@ -1,13 +1,17 @@
 package com.ag.service.impl;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.ag.persistence.model.Project;
+import com.ag.persistence.model.Task;
 import com.ag.persistence.repository.IProjectRepository;
 import com.ag.service.IProjectService;
 
@@ -34,6 +38,18 @@ public class ProjectServiceImpl implements IProjectService {
     @Override
     public Iterable<Project> findAll() {
         return projectRepository.findAll();
+    }
+    
+    @Override
+    public Project addTasks(Project project, List<Task> tasks) {
+        project.getTasks()
+               .addAll(tasks.stream()
+               .filter(t -> !StringUtils.isEmpty(t.getName()))
+               .collect(Collectors.toList()));
+
+        projectRepository.save(project);
+
+        return project;
     }
 
 }

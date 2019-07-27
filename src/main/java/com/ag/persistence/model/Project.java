@@ -29,7 +29,7 @@ public class Project {
     @JoinColumn(name = "project_id")
     private Set<Task> tasks;
 
-    protected Project() {
+    public Project() {
     }
 
     public Project(String name, LocalDate dateCreated) {
