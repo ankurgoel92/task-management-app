@@ -15,4 +15,6 @@ public interface IProjectService {
     Iterable<Project> findAll();
 
     Project addTasks(Project project, List<Task> collect);
+
+    void delete(Long id);
 }

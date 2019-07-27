@@ -52,4 +52,8 @@ public class ProjectServiceImpl implements IProjectService {
         return project;
     }
 
+    @Override
+    public void delete(Long id) {
+        projectRepository.deleteById(id);
+    }
 }
