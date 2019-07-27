@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ag.events.ProjectCreatedEvent;
 import com.ag.persistence.model.Project;
 import com.ag.persistence.model.Task;
 import com.ag.service.IProjectService;
@@ -28,6 +31,9 @@ import com.ag.web.dto.TaskListDto;
 public class ProjectMVCController {
 
     private IProjectService projectService;
+    
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
     public ProjectMVCController(IProjectService projectService) {
         this.projectService = projectService;
@@ -60,7 +66,8 @@ public class ProjectMVCController {
         if (bindingResult.hasErrors()) {
             return "new-project";
         }
-        projectService.save(convertToEntity(project));
+        Project newProject = projectService.save(convertToEntity(project));
+        this.publisher.publishEvent(new ProjectCreatedEvent(newProject.getId()));
 
         return "redirect:/projects";
     }
