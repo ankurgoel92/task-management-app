@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.ag.aspect.timing.Timed;
 import com.ag.persistence.model.Project;
 import com.ag.persistence.model.Task;
 import com.ag.service.IProjectService;
@@ -34,6 +35,7 @@ public class ProjectRestController {
         this.projectService = projectService;
     }
 
+    @Timed
     @GetMapping(value = "/{id}")
     public ProjectDto findOne(@PathVariable Long id) {
         Project entity = projectService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"));
